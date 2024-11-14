@@ -106,7 +106,7 @@ const perguntas = [
             "Remove o último elemento da lista.",
             "Adiciona um elemento ao início da lista."
         ]
-    }
+    },
     {
         pergunta: "O que é uma lista em Python?",
         resposta: "Uma coleção ordenada e mutável de itens.",

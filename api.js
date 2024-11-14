@@ -5,7 +5,7 @@ const PORT = 8080;
 // Versão da API
 const VERSAO_API = "1.0.0";
 
-// Lista de perguntas
+// Perguntas do quiz
 const perguntas = [
     {
         pergunta: "Qual é o índice do último elemento de uma lista chamada 'lista'?",
@@ -63,7 +63,7 @@ const perguntas = [
         alternativas: [
             "lista.copy()",
             "list(lista)",
-            "lista[:]",
+            "lista[:] ",
             "copy(lista)"
         ]
     },
@@ -206,18 +206,82 @@ const perguntas = [
             "[x**2 for x in range(1, 6)]",
             "range(1, 6)**2"
         ]
+    },
+    {
+        pergunta: "Qual função retorna o maior número em uma lista?",
+        resposta: "max()",
+        alternativas: [
+            "min()",
+            "max()",
+            "highest()",
+            "top()"
+        ]
+    },
+    {
+        pergunta: "Qual expressão cria uma lista de strings com a palavra 'Python' repetida 5 vezes?",
+        resposta: "['Python'] * 5",
+        alternativas: [
+            "['Python'] * 5",
+            "['Python'] + 5",
+            "['Python' * 5]",
+            "repeat('Python', 5)"
+        ]
+    },
+    {
+        pergunta: "O que faz o comando 'lista[::2]'?",
+        resposta: "Cria uma nova lista com elementos de índice par.",
+        alternativas: [
+            "Cria uma nova lista com elementos de índice par.",
+            "Cria uma nova lista com elementos de índice ímpar.",
+            "Reverte a ordem dos elementos na lista.",
+            "Cria uma cópia da lista."
+        ]
+    },
+    {
+        pergunta: "Como você removeria um item específico de uma lista com base no índice?",
+        resposta: "del lista[indice]",
+        alternativas: [
+            "del lista[indice]",
+            "lista.remove(indice)",
+            "lista.pop(indice)",
+            "lista.delete(indice)"
+        ]
+    },
+    {
+        pergunta: "Como você verificaria se um item existe em uma lista?",
+        resposta: "'item' in lista",
+        alternativas: [
+            "'item' in lista",
+            "lista.contains('item')",
+            "item in lista",
+            "check('item', lista)"
+        ]
     }
 ];
 
 // Endpoint para retornar a versão da API
 app.get('/version', (req, res) => {
-    res.json({ version: VERSAO_API });
+    res.status(200).json({ version: VERSAO_API });
 });
 
 // Endpoint para retornar uma pergunta aleatória
 app.get('/pergunta', (req, res) => {
     const perguntaAleatoria = perguntas[Math.floor(Math.random() * perguntas.length)];
-    res.json(perguntaAleatoria);
+    res.status(200).json(perguntaAleatoria);
+});
+
+// Endpoint para validar a versão da API e retornar uma resposta caso não corresponda
+app.get('/validate-version/:version', (req, res) => {
+    const userVersion = req.params.version;
+    if (userVersion !== VERSAO_API) {
+        return res.status(426).json({
+            message: `Versão desatualizada! Atualize para a versão ${VERSAO_API} para acessar o quiz.`
+        });
+    }
+    res.status(200).json({
+        message: "Versão compatível. Você pode acessar o quiz.",
+        version: VERSAO_API
+    });
 });
 
 // Inicialização do servidor
